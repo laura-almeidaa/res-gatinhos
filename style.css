@@ -1,0 +1,602 @@
+/* ============================================================
+   Res-Gatinhos — Folha de Estilos Principal (style.css)
+   ============================================================ */
+
+/* ── VARIÁVEIS GLOBAIS ── */
+:root {
+  --orange:       #F5A623;
+  --orange-dark:  #E08A00;
+  --orange-light: #FFF3DC;
+  --black:        #1A1208;
+  --gray:         #6B6860;
+  --light:        #F9F6F1;
+  --paper:        #F5EFE4;
+  --white:        #FFFFFF;
+  --radius:       18px;
+}
+
+/* ── RESET ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--white);
+  color: var(--black);
+  overflow-x: hidden;
+}
+
+/* ── NAVEGAÇÃO ── */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 60px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(245, 166, 35, 0.15);
+}
+
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--orange);
+  text-decoration: none;
+  letter-spacing: -0.5px;
+  display: flex;             
+  align-items: center;        
+  gap: 8px;                   
+}
+
+.nav-logo span {
+  color: var(--black);
+}
+
+.logo-img {
+  height: 50px;               
+  width: auto;
+}
+
+
+.nav-links {
+  display: flex;
+  gap: 36px;
+  list-style: none;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--black);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--orange);
+}
+
+.nav-cta {
+  background: var(--orange) !important;
+  color: var(--white) !important;
+  padding: 10px 22px;
+  border-radius: 50px;
+  font-weight: 600 !important;
+  transition: background 0.2s, transform 0.15s !important;
+}
+
+.nav-cta:hover {
+  background: var(--orange-dark) !important;
+  transform: translateY(-1px);
+}
+
+/* ── HERO ── */
+#hero {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #2b1a00 0%, #5c3800 60%, #1a0f00 100%);
+}
+
+.hero-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle cx='20' cy='20' r='5' fill='%23F5A623' opacity='.07'/%3E%3Ccircle cx='35' cy='17' r='3.5' fill='%23F5A623' opacity='.07'/%3E%3Ccircle cx='44' cy='26' r='3.5' fill='%23F5A623' opacity='.07'/%3E%3Cellipse cx='29' cy='35' rx='8' ry='10' fill='%23F5A623' opacity='.07'/%3E%3C/svg%3E");
+  background-size: 60px 60px;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+  padding: 0 24px;
+  animation: fadeUp 0.9s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(36px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero-tag {
+  display: inline-block;
+  background: rgba(245, 166, 35, 0.2);
+  color: var(--orange);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 6px 18px;
+  border-radius: 50px;
+  border: 1px solid rgba(245, 166, 35, 0.35);
+  margin-bottom: 24px;
+}
+
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-weight: 900;
+  color: var(--white);
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+
+.hero-title em {
+  color: var(--orange);
+  font-style: normal;
+}
+
+.hero-sub {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.05rem;
+  font-weight: 300;
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.75rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.hero-scroll span {
+  display: block;
+  width: 1px;
+  height: 50px;
+  background: linear-gradient(to bottom, rgba(245, 166, 35, 0.7), transparent);
+  animation: scrollLine 1.8s ease-in-out infinite;
+}
+
+@keyframes scrollLine {
+  0%, 100% { opacity: 0; transform: scaleY(0.3) translateY(-10px); }
+  50%       { opacity: 1; transform: scaleY(1) translateY(0); }
+}
+
+/* ── BOTÕES ── */
+.btn-primary {
+  display: inline-block;
+  background: var(--orange);
+  color: var(--white);
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 16px 38px;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 8px 30px rgba(245, 166, 35, 0.4);
+}
+
+.btn-primary:hover {
+  background: var(--orange-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 40px rgba(245, 166, 35, 0.5);
+}
+
+.btn-outline {
+  display: inline-block;
+  border: 2px solid var(--white);
+  color: var(--white);
+  background: transparent;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 14px 32px;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s, transform 0.15s;
+}
+
+.btn-outline:hover {
+  background: var(--white);
+  color: var(--black);
+  transform: translateY(-2px);
+}
+
+.btn-outline.filled {
+  background: var(--orange);
+  border-color: var(--orange);
+}
+
+.btn-outline.filled:hover {
+  background: var(--orange-dark);
+  border-color: var(--orange-dark);
+  color: var(--white);
+}
+
+/* ── SEÇÕES BASE ── */
+section {
+  padding: 100px 60px;
+}
+
+.section-tag {
+  display: inline-block;
+  color: var(--orange);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 900;
+  line-height: 1.15;
+  color: var(--black);
+}
+
+h2 em {
+  color: var(--orange);
+  font-style: normal;
+}
+
+.lead {
+  color: var(--gray);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  max-width: 600px;
+}
+
+/* ── SOBRE ── */
+#sobre {
+  background: var(--light);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.sobre-visual {
+  position: relative;
+}
+
+.sobre-img-main {
+  width: 100%;
+  border-radius: var(--radius);
+  aspect-ratio: 4/3;
+  background-image: url(img/garota-com-gato-laranja.jpg); /* imagem no lugar do emoji */
+  background-size: cover;       /* ocupa todo o espaço */
+  background-position: center;  /* centraliza */
+  background-repeat: no-repeat;
+}
+
+.sobre-card {
+  position: absolute;
+  bottom: -24px;
+  right: -24px;
+  background: var(--orange);
+  color: var(--white);
+  padding: 22px 28px;
+  border-radius: var(--radius);
+  text-align: center;
+  box-shadow: 0 12px 40px rgba(245, 166, 35, 0.35);
+}
+
+.sobre-card strong {
+  font-size: 2.2rem;
+  display: block;
+  font-family: 'Playfair Display', serif;
+}
+
+.sobre-card small {
+  font-size: 0.8rem;
+  opacity: 0.85;
+}
+
+.sobre-text {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sobre-text .lead {
+  max-width: none;
+}
+
+.stats-row {
+  display: flex;
+  gap: 32px;
+  margin-top: 12px;
+}
+
+.stat {
+  text-align: center;
+}
+
+.stat strong {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  color: var(--orange);
+  display: block;
+}
+
+.stat small {
+  font-size: 0.8rem;
+  color: var(--gray);
+}
+
+
+/* ── COMO AJUDAMOS ── */
+#como {
+  background: var(--white);
+  text-align: center;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.card {
+  background: var(--light);
+  border-radius: var(--radius);
+  overflow: hidden;
+  text-align: left;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+
+.card-image {
+  width: 100%;
+  height: 200px;              
+  background-size: cover;    
+  background-position: center;
+}
+
+.card-resgate {
+  background-image: url(img/gato-resgate.jpg);
+}
+.card-vet {
+  background-image: url(img/gato-veterinario.jpg);
+}
+.card-lar {
+  background-image: url(img/gato-descansando.jpg);
+}
+
+.card-body {
+  padding: 28px;
+}
+
+.card-body h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.card-body p {
+  font-size: 0.9rem;
+  color: var(--gray);
+  line-height: 1.6;
+}
+
+
+/* ── COMO VOCÊ PODE AJUDAR ── */
+#ajudar {
+  background: linear-gradient(135deg, #2b1a00, #5c3800);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+#ajudar::before {
+  content: '🐾';
+  position: absolute;
+  font-size: 20rem;
+  opacity: 0.04;
+  top: -40px;
+  right: -40px;
+}
+
+#ajudar h2 {
+  color: var(--white);
+  margin-bottom: 16px;
+}
+
+#ajudar .lead {
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 auto 50px;
+}
+
+.actions-row {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ── CONTATO ── */
+#contato {
+  background: var(--orange);
+  color: var(--white);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+#contato h2 {
+  color: var(--white);
+}
+
+#contato .lead {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.contato-links {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.contato-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--white);
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 16px 24px;
+  border-radius: var(--radius);
+  transition: background 0.2s, transform 0.15s;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.contato-link:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateX(4px);
+}
+
+.contato-link .ico {
+  font-size: 1.4rem;
+}
+
+.contato-right {
+  width: 700px;
+  height: 400px;
+  background: url('img/gato-contato.png') center/cover no-repeat;
+  margin-left: 125px;
+  border-radius: var(--radius);
+  padding: 48px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.12);
+}
+
+
+/* ── HASHTAG BAND ── */
+.tag-band {
+  background: var(--black);
+  padding: 18px 0;
+  text-align: center;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 3px;
+}
+
+.tag-band span {
+  color: var(--orange);
+  font-weight: 700;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--black);
+  color: rgba(255, 255, 255, 0.5);
+  padding: 48px 60px;
+  display: flex;
+  flex-direction: column; 
+  align-items: center;    
+  text-align: center;     
+  gap: 12px;         
+  font-size: 0.85rem;
+}
+
+footer a {
+  color: var(--orange);
+  text-decoration: none;
+}
+
+footer strong {
+  color: var(--orange);
+}
+
+
+/* ── RESPONSIVO ── */
+@media (max-width: 900px) {
+  nav {
+    padding: 16px 24px;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  section {
+    padding: 72px 24px;
+  }
+
+  #sobre,
+  #contato {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sobre-card {
+    right: 0;
+  }
+
+  footer {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+    padding: 40px 24px;
+  }
+}

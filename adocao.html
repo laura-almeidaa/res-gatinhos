@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Adote um Gatinho – Res-Gatinhos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="adocao.css">
+  <style>
+    .loading-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      padding: 4rem 2rem;
+      grid-column: 1 / -1;
+      color: #888;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .loading-state .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid #f0e8e0;
+      border-top-color: #e07b54;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    .loading-state p { font-size: 1rem; margin: 0; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .error-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      padding: 4rem 2rem;
+      grid-column: 1 / -1;
+      color: #c0392b;
+      font-family: 'DM Sans', sans-serif;
+      text-align: center;
+    }
+    .error-state .emoji { font-size: 2.5rem; }
+    .error-state h3 { margin: 0; font-size: 1.1rem; }
+    .error-state p  { margin: 0; font-size: 0.9rem; color: #888; }
+    .error-state button {
+      margin-top: 0.5rem;
+      padding: 0.5rem 1.25rem;
+      background: #e07b54;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVEGACAO -->
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <img src="img/logo res-gatinhos.png" alt="Logo Res-Gatinhos" class="logo-img">
+    Res·<span>Gatinhos</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#sobre">Sobre</a></li>
+      <li><a href="index.html#como">Como ajudamos</a></li>
+      <li><a href="index.html#ajudar">Ajude</a></li>
+      <li><a href="adocao.html" class="active">Adoção</a></li>
+      <li><a href="index.html#contato" class="nav-cta">Contato</a></li>
+    </ul>
+  </nav>
+
+  <!-- ULTIMA ATUALIZACAO -->
+  <div class="alert-bar" id="alert-bar">
+  Última atualização do catálogo de adoção: 15/04/2026
+  <button class="alert-close" onclick="closeAlert()">✕</button>
+  </div>
+
+  <!-- HERO -->
+  <div class="page-hero">
+    <div class="page-hero-content">
+      <div class="page-hero-tag">🐾 Catálogo de Adoção</div>
+      <h1>Conheça gatinhos<br>disponíveis para <em>adoção!</em></h1>
+      <p>Cada um tem uma história única. Encontre seu companheiro perfeito de quatro patas.</p>
+    </div>
+  </div>
+
+  <!-- FILTROS -->
+  <div class="search-section">
+    <div class="search-inner">
+      <div class="search-title">🔍 Encontre o gatinho<span>perfeito para você</span></div>
+      <div class="filters-row">
+        <div class="filter-group">
+          <label>Nome</label>
+          <input type="text" id="f-nome" placeholder="Buscar por nome...">
+        </div>
+        <div class="filter-group">
+          <label>Sexo</label>
+          <select id="f-sexo">
+            <option value="">Todos</option>
+            <option value="macho">Macho</option>
+            <option value="femea">Fêmea</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Faixa etária</label>
+          <select id="f-idade">
+            <option value="">Todas as idades</option>
+            <option value="filhote">Filhote (até 1 ano)</option>
+            <option value="jovem">Jovem (1–3 anos)</option>
+            <option value="adulto">Adulto (3–7 anos)</option>
+            <option value="senior">Sênior (+7 anos)</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Cor / Pelagem</label>
+          <select id="f-cor">
+            <option value="">Qualquer</option>
+            <option value="preto">Preto</option>
+            <option value="laranja">Laranja / Ruivo</option>
+            <option value="cinza">Cinza / Frajola</option>
+            <option value="caramelo">Caramelo</option>
+            <option value="malhado">Malhado / Tigrado</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Castrado(a)?</label>
+          <select id="f-castrado">
+            <option value="">Todos</option>
+            <option value="sim">Sim</option>
+            <option value="nao">Não</option>
+          </select>
+        </div>
+        <button class="btn-search" onclick="applyFilters()">Buscar 🐱</button>
+        <button class="btn-clear" onclick="clearFilters()">Limpar</button>
+      </div>
+      <div class="active-filters" id="active-filters"></div>
+    </div>
+  </div>
+
+  <!-- RESULTADOS -->
+  <div class="results-section">
+    <div class="results-header">
+      <div class="results-count">Mostrando <strong id="count">0</strong> gatinhos</div>
+      <select class="sort-select" onchange="sortCats(this.value)">
+        <option value="nome">Ordenar por: Nome</option>
+        <option value="idade-asc">Mais novos primeiro</option>
+        <option value="idade-desc">Mais velhos primeiro</option>
+      </select>
+    </div>
+    <div class="cats-grid" id="cats-grid"></div>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+    <div class="modal" id="modal">
+      <div class="modal-header">
+        <button class="modal-close" onclick="closeModalBtn()">✕</button>
+        <img id="m-img" class="modal-img" src="" alt="Foto do gatinho">
+        <div class="modal-name" id="m-name">Nome</div>
+        <div class="modal-age" id="m-age">Idade</div>
+      </div>
+      <div class="modal-body">
+        <div class="modal-details" id="m-details"></div>
+        <h4>Sobre mim 🐾</h4>
+        <p id="m-bio"></p>
+        <a
+          href="https://wa.me/5516981050239?text=Oi!%20Tenho%20interesse%20em%20adotar%20um%20gatinho!"
+          target="_blank"
+          class="modal-btn"
+        >
+          💬 Quero adotar via WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT -->
+  <script>
+
+    function closeAlert() {
+      document.getElementById('alert-bar').style.display = 'none';
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       CONFIGURAÇÃO DA API
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    const API_URL = "https://script.google.com/macros/s/AKfycbzjmdv0WSFNxa_ZQ_5Q1eG-lYZvLHYRj0P9dK3l6jXlns7VJ--T8ACIttfkn36TmHNJjA/exec";
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       NORMALIZAÇÃO DOS DADOS
+       Converte os dados brutos do Google Sheets para o
+       formato esperado pelo front-end.
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    function normalizeCat(cat) {
+      // tags: aceita string separada por vírgula ou array
+      let tags = [];
+      if (Array.isArray(cat.tags)) {
+        tags = cat.tags;
+      } else if (typeof cat.tags === 'string' && cat.tags.trim() !== '') {
+        tags = cat.tags.split(',').map(function(t) { return t.trim(); }).filter(Boolean);
+      }
+
+      return {
+        id:          cat.id,
+        nome:        cat.nome        || '',
+        imagem:      cat.imagem      || '',
+        emoji:       cat.emoji       || (cat.sexo === 'femea' ? '🐈' : '🐈‍⬛'),
+        sexo:        (cat.sexo       || '').toLowerCase(),
+        idadeNum:    Number(cat.idadeNum) || 0,
+        idadeTxt:    cat.idadeTxt    || '',
+        cor:         (cat.cor        || '').toLowerCase(),
+        cor_pelagem: cat.cor_pelagem || cat.cor || '',
+        castrado:    normalizeSimNao(cat.castrado),
+        vacinado:    normalizeSimNao(cat.vacinado),
+        faixa:       (cat.faixa      || '').toLowerCase(),
+        bio:         cat.bio         || '',
+        tags:        tags,
+        disponivel:  cat.disponivel !== false && cat.disponivel !== 'false'
+      };
+    }
+
+    // Converte valores variados (true/false/"sim"/"nao") para "sim" ou "nao"
+    function normalizeSimNao(value) {
+      if (value === true  || value === 'true'  || value === 'sim') return 'sim';
+      if (value === false || value === 'false' || value === 'nao') return 'nao';
+      return String(value || '').toLowerCase();
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       BUSCA NA API
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    async function fetchCats() {
+      const response = await fetch(API_URL);
+      if (!response.ok) {
+        throw new Error('Erro HTTP ' + response.status + ': ' + response.statusText);
+      }
+      const data = await response.json();
+      console.log('[Res-Gatinhos] Dados recebidos da API:', data);
+      return data;
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       ESTADO GLOBAL
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    var cats        = [];
+    var visibleCats = [];
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       INICIALIZAÇÃO ASSÍNCRONA
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    async function init() {
+      showLoading();
+      try {
+        var raw = await fetchCats();
+        cats = (Array.isArray(raw) ? raw : [])
+          .map(normalizeCat)
+          .filter(function(c) { return c.disponivel; });
+
+        if (cats.length === 0) {
+          console.warn('[Res-Gatinhos] A API retornou uma lista vazia.');
+        }
+
+        visibleCats = cats.slice();
+        renderCats(visibleCats);
+
+      } catch (error) {
+        console.error('[Res-Gatinhos] Erro ao carregar gatos:', error);
+        cats        = [];
+        visibleCats = [];
+        showError(error.message);
+      }
+    }
+
+    init();
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       ESTADOS DE UI
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    function showLoading() {
+      var grid = document.getElementById('cats-grid');
+      document.getElementById('count').textContent = '…';
+      grid.innerHTML =
+        '<div class="loading-state">' +
+          '<div class="spinner"></div>' +
+          '<p>Carregando gatinhos... 🐾</p>' +
+        '</div>';
+    }
+
+    function showError(msg) {
+      var grid = document.getElementById('cats-grid');
+      document.getElementById('count').textContent = '0';
+      grid.innerHTML =
+        '<div class="error-state">' +
+          '<div class="emoji">😿</div>' +
+          '<h3>Não foi possível carregar os gatinhos</h3>' +
+          '<p>' + (msg || 'Verifique sua conexão ou tente novamente.') + '</p>' +
+          '<button onclick="init()">Tentar novamente</button>' +
+        '</div>';
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       RENDERIZAR CARDS
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    function renderCats(list) {
+      var grid = document.getElementById('cats-grid');
+      grid.innerHTML = '';
+      document.getElementById('count').textContent = list.length;
+
+      if (list.length === 0) {
+        grid.innerHTML =
+          '<div class="empty-state">' +
+            '<div class="emoji">🙁</div>' +
+            '<h3>Nenhum gatinho encontrado</h3>' +
+            '<p>Tente ajustar os filtros para ver mais resultados.</p>' +
+          '</div>';
+        return;
+      }
+
+      list.forEach(function(cat) {
+        var card = document.createElement('div');
+        card.className = 'cat-card';
+        card.onclick = function() { openModal(cat); };
+        card.innerHTML =
+          '<div class="cat-badge ' + cat.sexo + '">' + (cat.sexo === 'macho' ? '♂ Macho' : '♀ Fêmea') + '</div>' +
+          '<div class="cat-photo">' +
+          (cat.imagem
+            ? '<img src="' + cat.imagem + '" alt="' + cat.nome + '" class="cat-img">'
+            : cat.emoji) +
+          '</div>' +
+          '<div class="cat-info">' +
+            '<h3>' + cat.nome + '</h3>' +
+            '<div class="cat-age">🗓 ' + cat.idadeTxt + ' · ' + cat.cor_pelagem + '</div>' +
+            '<div class="cat-tags">' +
+              cat.tags.map(function(t) { return '<span class="cat-tag">' + t + '</span>'; }).join('') +
+              '<span class="cat-tag">' + (cat.castrado === 'sim' ? '✅ Castrado(a)' : '⏳ Não castrado(a)') + '</span>' +
+            '</div>' +
+            '<button class="btn-adotar" onclick="event.stopPropagation(); openModal(' + JSON.stringify(cat).replace(/"/g, '&quot;') + ')">' +
+              'Quero adotar! 🧡' +
+            '</button>' +
+          '</div>';
+        grid.appendChild(card);
+      });
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       FILTROS
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    function applyFilters() {
+      var nome     = document.getElementById('f-nome').value.toLowerCase().trim();
+      var sexo     = document.getElementById('f-sexo').value;
+      var faixa    = document.getElementById('f-idade').value;
+      var cor      = document.getElementById('f-cor').value;
+      var castrado = document.getElementById('f-castrado').value;
+
+      visibleCats = cats.filter(function(c) {
+        if (nome     && !c.nome.toLowerCase().includes(nome)) return false;
+        if (sexo     && c.sexo     !== sexo)     return false;
+        if (faixa    && c.faixa    !== faixa)    return false;
+        if (cor      && c.cor      !== cor)      return false;
+        if (castrado && c.castrado !== castrado) return false;
+        return true;
+      });
+
+      renderChips({ nome: nome, sexo: sexo, faixa: faixa, cor: cor, castrado: castrado });
+      renderCats(visibleCats);
+    }
+
+    function renderChips(f) {
+      var labels = {
+        nome:     f.nome     ? 'Nome: "' + f.nome + '"' : '',
+        sexo:     f.sexo     ? 'Sexo: ' + f.sexo : '',
+        faixa:    f.faixa    ? 'Idade: ' + f.faixa : '',
+        cor:      f.cor      ? 'Cor: ' + f.cor : '',
+        castrado: f.castrado ? 'Castrado: ' + (f.castrado === 'sim' ? 'Sim' : 'Não') : ''
+      };
+
+      document.getElementById('active-filters').innerHTML = Object.entries(labels)
+        .filter(function(entry) { return entry[1]; })
+        .map(function(entry) {
+          return '<span class="filter-chip">' + entry[1] +
+            '<button onclick="removeFilter(\'' + entry[0] + '\')">✕</button>' +
+          '</span>';
+        })
+        .join('');
+    }
+
+    function removeFilter(key) {
+      var map = { nome: 'f-nome', sexo: 'f-sexo', faixa: 'f-idade', cor: 'f-cor', castrado: 'f-castrado' };
+      var el = document.getElementById(map[key]);
+      if (el) el.value = '';
+      applyFilters();
+    }
+
+    function clearFilters() {
+      ['f-nome', 'f-sexo', 'f-idade', 'f-cor', 'f-castrado'].forEach(function(id) {
+        document.getElementById(id).value = '';
+      });
+      document.getElementById('active-filters').innerHTML = '';
+      visibleCats = cats.slice();
+      renderCats(visibleCats);
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       ORDENAÇÃO
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    function sortCats(value) {
+      if (value === 'nome') {
+        visibleCats.sort(function(a, b) { return a.nome.localeCompare(b.nome); });
+      } else if (value === 'idade-asc') {
+        visibleCats.sort(function(a, b) { return a.idadeNum - b.idadeNum; });
+      } else {
+        visibleCats.sort(function(a, b) { return b.idadeNum - a.idadeNum; });
+      }
+      renderCats(visibleCats);
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       MODAL DE DETALHES
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    function openModal(cat) {
+      var img = document.getElementById('m-img');
+
+      if (cat.imagem) {
+        img.src = cat.imagem;
+        img.style.display = 'block';
+        img.onclick = function() { openImageViewer(cat.imagem); };
+      } else {
+        img.style.display = 'none';
+      }
+
+      document.getElementById('m-name').textContent  = cat.nome;
+      document.getElementById('m-age').textContent   = cat.idadeTxt + ' · ' + (cat.sexo === 'macho' ? '♂ Macho' : '♀ Fêmea');
+      document.getElementById('m-bio').textContent   = cat.bio;
+      document.getElementById('m-details').innerHTML =
+        '<div class="modal-detail"><label>Pelagem</label><span>' + cat.cor_pelagem + '</span></div>' +
+        '<div class="modal-detail"><label>Idade</label><span>' + cat.idadeTxt + '</span></div>' +
+        '<div class="modal-detail"><label>Castrado(a)</label><span>' + (cat.castrado === 'sim' ? '✅ Sim' : '⏳ Não') + '</span></div>' +
+        '<div class="modal-detail"><label>Vacinado(a)</label><span>' + (cat.vacinado === 'sim' ? '✅ Sim' : '⏳ Não') + '</span></div>';
+
+      document.getElementById('modal-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(e) {
+      if (e.target === document.getElementById('modal-overlay')) closeModalBtn();
+    }
+
+    function closeModalBtn() {
+      document.getElementById('modal-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       VISUALIZADOR DE IMAGEM AMPLIADA
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    function openImageViewer(src) {
+      var viewer = document.getElementById('image-viewer');
+      var img    = document.getElementById('viewer-img');
+      img.src = src;
+      viewer.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeImageViewer(e) {
+      if (e.target.id === 'image-viewer') closeImageViewerBtn();
+    }
+
+    function closeImageViewerBtn() {
+      document.getElementById('image-viewer').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    /* Busca por Enter */
+    document.getElementById('f-nome').addEventListener('keyup', function(e) {
+      if (e.key === 'Enter') applyFilters();
+    });
+
+  </script>
+
+  <div class="image-viewer" id="image-viewer" onclick="closeImageViewer(event)">
+    <div class="image-viewer-content">
+      <button class="image-viewer-close" onclick="closeImageViewerBtn()">✕</button>
+      <img id="viewer-img" src="" alt="Foto ampliada">
+    </div>
+  </div>
+
+</body>
+</html>
