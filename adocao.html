@@ -9,97 +9,59 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="adocao.css">
-  <style>
-    .loading-state {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-      padding: 4rem 2rem;
-      grid-column: 1 / -1;
-      color: #888;
-      font-family: 'DM Sans', sans-serif;
-    }
-    .loading-state .spinner {
-      width: 48px;
-      height: 48px;
-      border: 4px solid #f0e8e0;
-      border-top-color: #e07b54;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-    .loading-state p { font-size: 1rem; margin: 0; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    .error-state {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.75rem;
-      padding: 4rem 2rem;
-      grid-column: 1 / -1;
-      color: #c0392b;
-      font-family: 'DM Sans', sans-serif;
-      text-align: center;
-    }
-    .error-state .emoji { font-size: 2.5rem; }
-    .error-state h3 { margin: 0; font-size: 1.1rem; }
-    .error-state p  { margin: 0; font-size: 0.9rem; color: #888; }
-    .error-state button {
-      margin-top: 0.5rem;
-      padding: 0.5rem 1.25rem;
-      background: #e07b54;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 0.9rem;
-    }
-  </style>
 </head>
 <body>
 
-  <!-- NAVEGACAO -->
+  <!-- ── NAVEGAÇÃO ── -->
   <nav>
     <a href="index.html" class="nav-logo">
       <img src="img/logo res-gatinhos.png" alt="Logo Res-Gatinhos" class="logo-img">
-    Res·<span>Gatinhos</span>
+      Res·<span>Gatinhos</span>
     </a>
     <ul class="nav-links">
       <li><a href="index.html#sobre">Sobre</a></li>
       <li><a href="index.html#como">Como ajudamos</a></li>
       <li><a href="index.html#ajudar">Ajude</a></li>
+      <li><a href="#documentos">Documentos</a></li>
       <li><a href="adocao.html" class="active">Adoção</a></li>
       <li><a href="index.html#contato" class="nav-cta">Contato</a></li>
     </ul>
   </nav>
 
-  <!-- ULTIMA ATUALIZACAO -->
+  <!-- ── ÚLTIMA ATUALIZAÇÃO ── -->
   <div class="alert-bar" id="alert-bar">
-  Última atualização do catálogo de adoção: 15/04/2026
-  <button class="alert-close" onclick="closeAlert()">✕</button>
+    Última atualização do catálogo de adoção: 15/04/2026
+    <button class="alert-close" onclick="closeAlert()">✕</button>
   </div>
 
-  <!-- HERO -->
+  <!-- ── HERO ── -->
   <div class="page-hero">
     <div class="page-hero-content">
-      <div class="page-hero-tag">🐾 Catálogo de Adoção</div>
+      <div class="page-hero-tag">Catálogo de Adoção</div>
       <h1>Conheça gatinhos<br>disponíveis para <em>adoção!</em></h1>
       <p>Cada um tem uma história única. Encontre seu companheiro perfeito de quatro patas.</p>
     </div>
   </div>
 
-  <!-- FILTROS -->
+  <!-- ── FILTROS ── -->
   <div class="search-section">
     <div class="search-inner">
-      <div class="search-title">🔍 Encontre o gatinho<span>perfeito para você</span></div>
-      <div class="filters-row">
-        <div class="filter-group">
+      <div class="search-title">🔍 Encontre o gatinho <span>perfeito para você</span></div>
+
+      <!-- linha 1: nome + buscar + limpar -->
+      <div class="filters-nome-row">
+        <div class="filter-group filter-nome">
           <label>Nome</label>
           <input type="text" id="f-nome" placeholder="Buscar por nome...">
         </div>
+        <div class="filters-btns-row">
+          <button class="btn-search" onclick="applyFilters()">Buscar 🐱</button>
+          <button class="btn-clear"  onclick="clearFilters()">Limpar</button>
+        </div>
+      </div>
+
+      <!-- linha 2: selects -->
+      <div class="filters-selects-row">
         <div class="filter-group">
           <label>Sexo</label>
           <select id="f-sexo">
@@ -137,19 +99,18 @@
             <option value="nao">Não</option>
           </select>
         </div>
-        <button class="btn-search" onclick="applyFilters()">Buscar 🐱</button>
-        <button class="btn-clear" onclick="clearFilters()">Limpar</button>
       </div>
+
       <div class="active-filters" id="active-filters"></div>
     </div>
   </div>
 
-  <!-- RESULTADOS -->
+  <!-- ── RESULTADOS ── -->
   <div class="results-section">
     <div class="results-header">
       <div class="results-count">Mostrando <strong id="count">0</strong> gatinhos</div>
-      <select class="sort-select" onchange="sortCats(this.value)">
-        <option value="nome">Ordenar por: Nome</option>
+      <select class="sort-select" id="sort-select" onchange="sortCats(this.value)">
+        <option value="nome">Ordenar: Nome A–Z</option>
         <option value="idade-asc">Mais novos primeiro</option>
         <option value="idade-desc">Mais velhos primeiro</option>
       </select>
@@ -157,55 +118,87 @@
     <div class="cats-grid" id="cats-grid"></div>
   </div>
 
-  <!-- MODAL -->
+  <!-- ── MODAL DE DETALHES ── -->
   <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
     <div class="modal" id="modal">
       <div class="modal-header">
         <button class="modal-close" onclick="closeModalBtn()">✕</button>
         <img id="m-img" class="modal-img" src="" alt="Foto do gatinho">
         <div class="modal-name" id="m-name">Nome</div>
-        <div class="modal-age" id="m-age">Idade</div>
+        <div class="modal-age"  id="m-age">Idade</div>
       </div>
       <div class="modal-body">
         <div class="modal-details" id="m-details"></div>
         <h4>Sobre mim 🐾</h4>
         <p id="m-bio"></p>
-        <a
-          href="https://wa.me/5516981050239?text=Oi!%20Tenho%20interesse%20em%20adotar%20um%20gatinho!"
-          target="_blank"
-          class="modal-btn"
-        >
-          💬 Quero adotar via WhatsApp
-        </a>
+        <div class="modal-actions">
+          <a id="m-btn-form"
+            href="https://docs.google.com/forms/d/e/1FAIpQLSfzSJo-anZHyUzW0a9-mDQ4pBPAYFMM1NM01XBB0aVw7LhHng/viewform?utm_source=ig&utm_medium=social&utm_content=link_in_bio"
+            target="_blank" class="modal-btn">
+            Quero adotar — preencher formulário
+          </a>
+          <a href="https://drive.google.com/file/d/1NAbpRynkRI19BENpLS2Io5w8G-mH5OBn/view?usp=sharing"
+            target="_blank" class="modal-btn-secondary">
+            Ver pré-requisitos para adoção
+          </a>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- JAVASCRIPT -->
+  <!-- ── VISUALIZADOR DE IMAGEM ── -->
+  <div class="image-viewer" id="image-viewer" onclick="closeImageViewer(event)">
+    <div class="image-viewer-content">
+      <button class="image-viewer-close" onclick="closeImageViewerBtn()">✕</button>
+      <img id="viewer-img" src="" alt="Foto ampliada">
+    </div>
+  </div>
+
+  <!-- ── JAVASCRIPT ── -->
   <script>
 
+    /* ── fechar barra ── */
     function closeAlert() {
       document.getElementById('alert-bar').style.display = 'none';
     }
 
-    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-       CONFIGURAÇÃO DA API
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-    const API_URL = "https://script.google.com/macros/s/AKfycbzjmdv0WSFNxa_ZQ_5Q1eG-lYZvLHYRj0P9dK3l6jXlns7VJ--T8ACIttfkn36TmHNJjA/exec";
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       API
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    var API_URL         = "https://script.google.com/macros/s/AKfycbzjmdv0WSFNxa_ZQ_5Q1eG-lYZvLHYRj0P9dK3l6jXlns7VJ--T8ACIttfkn36TmHNJjA/exec";
+    var LINK_FORMULARIO = "https://docs.google.com/forms/d/e/1FAIpQLSfzSJo-anZHyUzW0a9-mDQ4pBPAYFMM1NM01XBB0aVw7LhHng/viewform?utm_source=ig&utm_medium=social&utm_content=link_in_bio";
 
-    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-       NORMALIZAÇÃO DOS DADOS
-       Converte os dados brutos do Google Sheets para o
-       formato esperado pelo front-end.
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       NORMALIZAÇÃO
+       — tenta todos os nomes de campo possíveis para
+         idadeNum, pois Apps Script pode variar o case
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    function parseIdadeNum(cat) {
+      /* testa os nomes mais comuns que o Apps Script pode gerar */
+      var raw = cat.idadeNum
+             ?? cat.idadenum
+             ?? cat.IdadeNum
+             ?? cat.IDADENUM
+             ?? cat['idade_num']
+             ?? cat['idade num']
+             ?? null;
+
+      if (raw === null || raw === undefined || raw === '') return 0;
+
+      /* substitui vírgula por ponto (ex: "1,5" → 1.5) e converte */
+      var n = parseFloat(String(raw).replace(',', '.'));
+      return isNaN(n) ? 0 : n;
+    }
+
     function normalizeCat(cat) {
-      // tags: aceita string separada por vírgula ou array
-      let tags = [];
+      var tags = [];
       if (Array.isArray(cat.tags)) {
         tags = cat.tags;
       } else if (typeof cat.tags === 'string' && cat.tags.trim() !== '') {
         tags = cat.tags.split(',').map(function(t) { return t.trim(); }).filter(Boolean);
       }
+
+      var idadeNum = parseIdadeNum(cat);   /* ← usa a função robusta */
 
       return {
         id:          cat.id,
@@ -213,8 +206,8 @@
         imagem:      cat.imagem      || '',
         emoji:       cat.emoji       || (cat.sexo === 'femea' ? '🐈' : '🐈‍⬛'),
         sexo:        (cat.sexo       || '').toLowerCase(),
-        idadeNum:    Number(cat.idadeNum) || 0,
-        idadeTxt:    cat.idadeTxt    || '',
+        idadeNum:    idadeNum,
+        idadeTxt:    cat.idadeTxt || cat.idadetxt || '',
         cor:         (cat.cor        || '').toLowerCase(),
         cor_pelagem: cat.cor_pelagem || cat.cor || '',
         castrado:    normalizeSimNao(cat.castrado),
@@ -226,35 +219,26 @@
       };
     }
 
-    // Converte valores variados (true/false/"sim"/"nao") para "sim" ou "nao"
     function normalizeSimNao(value) {
       if (value === true  || value === 'true'  || value === 'sim') return 'sim';
       if (value === false || value === 'false' || value === 'nao') return 'nao';
       return String(value || '').toLowerCase();
     }
 
-    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-       BUSCA NA API
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-    async function fetchCats() {
-      const response = await fetch(API_URL);
-      if (!response.ok) {
-        throw new Error('Erro HTTP ' + response.status + ': ' + response.statusText);
-      }
-      const data = await response.json();
-      console.log('[Res-Gatinhos] Dados recebidos da API:', data);
-      return data;
-    }
-
-    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-       ESTADO GLOBAL
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    /* ── ESTADO GLOBAL ── */
     var cats        = [];
     var visibleCats = [];
+    var currentSort = 'nome';
 
-    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-       INICIALIZAÇÃO ASSÍNCRONA
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       FETCH
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    async function fetchCats() {
+      var r = await fetch(API_URL);
+      if (!r.ok) throw new Error('Erro HTTP ' + r.status);
+      return await r.json();
+    }
+
     async function init() {
       showLoading();
       try {
@@ -263,30 +247,27 @@
           .map(normalizeCat)
           .filter(function(c) { return c.disponivel; });
 
-        if (cats.length === 0) {
-          console.warn('[Res-Gatinhos] A API retornou uma lista vazia.');
-        }
+        /* debug: mostra no console os valores de idadeNum para verificação */
+        console.log('[Res-Gatinhos] idadeNum por gato:',
+          cats.map(function(c) { return c.nome + ': ' + c.idadeNum; }));
 
         visibleCats = cats.slice();
+        applySortToList(visibleCats, currentSort);
         renderCats(visibleCats);
-
-      } catch (error) {
-        console.error('[Res-Gatinhos] Erro ao carregar gatos:', error);
-        cats        = [];
-        visibleCats = [];
-        showError(error.message);
+      } catch (err) {
+        console.error('[Res-Gatinhos]', err);
+        showError(err.message);
       }
     }
 
     init();
 
-    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-       ESTADOS DE UI
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       LOADING / ERROR
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
     function showLoading() {
-      var grid = document.getElementById('cats-grid');
       document.getElementById('count').textContent = '…';
-      grid.innerHTML =
+      document.getElementById('cats-grid').innerHTML =
         '<div class="loading-state">' +
           '<div class="spinner"></div>' +
           '<p>Carregando gatinhos... 🐾</p>' +
@@ -294,9 +275,8 @@
     }
 
     function showError(msg) {
-      var grid = document.getElementById('cats-grid');
       document.getElementById('count').textContent = '0';
-      grid.innerHTML =
+      document.getElementById('cats-grid').innerHTML =
         '<div class="error-state">' +
           '<div class="emoji">😿</div>' +
           '<h3>Não foi possível carregar os gatinhos</h3>' +
@@ -305,9 +285,9 @@
         '</div>';
     }
 
-    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-       RENDERIZAR CARDS
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       RENDER CARDS
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
     function renderCats(list) {
       var grid = document.getElementById('cats-grid');
       grid.innerHTML = '';
@@ -328,30 +308,31 @@
         card.className = 'cat-card';
         card.onclick = function() { openModal(cat); };
         card.innerHTML =
-          '<div class="cat-badge ' + cat.sexo + '">' + (cat.sexo === 'macho' ? '♂ Macho' : '♀ Fêmea') + '</div>' +
+          '<div class="cat-badge ' + cat.sexo + '">' +
+            (cat.sexo === 'macho' ? '♂ Macho' : '♀ Fêmea') +
+          '</div>' +
           '<div class="cat-photo">' +
-          (cat.imagem
-            ? '<img src="' + cat.imagem + '" alt="' + cat.nome + '" class="cat-img">'
-            : cat.emoji) +
+            (cat.imagem
+              ? '<img src="' + cat.imagem + '" alt="' + cat.nome + '" class="cat-img">'
+              : cat.emoji) +
           '</div>' +
           '<div class="cat-info">' +
             '<h3>' + cat.nome + '</h3>' +
             '<div class="cat-age">🗓 ' + cat.idadeTxt + ' · ' + cat.cor_pelagem + '</div>' +
             '<div class="cat-tags">' +
               cat.tags.map(function(t) { return '<span class="cat-tag">' + t + '</span>'; }).join('') +
-              '<span class="cat-tag">' + (cat.castrado === 'sim' ? '✅ Castrado(a)' : '⏳ Não castrado(a)') + '</span>' +
+              '<span class="cat-tag">' + (cat.castrado === 'sim' ? 'Castrado(a)' : 'Não castrado(a)') + '</span>' +
             '</div>' +
-            '<button class="btn-adotar" onclick="event.stopPropagation(); openModal(' + JSON.stringify(cat).replace(/"/g, '&quot;') + ')">' +
-              'Quero adotar! 🧡' +
-            '</button>' +
+            '<button class="btn-adotar" onclick="event.stopPropagation();openModal(' +
+              JSON.stringify(cat).replace(/"/g,'&quot;') + ')">Quero adotar!</button>' +
           '</div>';
         grid.appendChild(card);
       });
     }
 
-    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
        FILTROS
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
     function applyFilters() {
       var nome     = document.getElementById('f-nome').value.toLowerCase().trim();
       var sexo     = document.getElementById('f-sexo').value;
@@ -368,6 +349,7 @@
         return true;
       });
 
+      applySortToList(visibleCats, currentSort);
       renderChips({ nome: nome, sexo: sexo, faixa: faixa, cor: cor, castrado: castrado });
       renderCats(visibleCats);
     }
@@ -375,58 +357,76 @@
     function renderChips(f) {
       var labels = {
         nome:     f.nome     ? 'Nome: "' + f.nome + '"' : '',
-        sexo:     f.sexo     ? 'Sexo: ' + f.sexo : '',
-        faixa:    f.faixa    ? 'Idade: ' + f.faixa : '',
-        cor:      f.cor      ? 'Cor: ' + f.cor : '',
+        sexo:     f.sexo     ? 'Sexo: ' + f.sexo        : '',
+        faixa:    f.faixa    ? 'Idade: ' + f.faixa       : '',
+        cor:      f.cor      ? 'Cor: ' + f.cor           : '',
         castrado: f.castrado ? 'Castrado: ' + (f.castrado === 'sim' ? 'Sim' : 'Não') : ''
       };
-
       document.getElementById('active-filters').innerHTML = Object.entries(labels)
-        .filter(function(entry) { return entry[1]; })
-        .map(function(entry) {
-          return '<span class="filter-chip">' + entry[1] +
-            '<button onclick="removeFilter(\'' + entry[0] + '\')">✕</button>' +
-          '</span>';
-        })
-        .join('');
+        .filter(function(e) { return e[1]; })
+        .map(function(e) {
+          return '<span class="filter-chip">' + e[1] +
+            '<button onclick="removeFilter(\'' + e[0] + '\')">✕</button></span>';
+        }).join('');
     }
 
     function removeFilter(key) {
-      var map = { nome: 'f-nome', sexo: 'f-sexo', faixa: 'f-idade', cor: 'f-cor', castrado: 'f-castrado' };
+      var map = { nome:'f-nome', sexo:'f-sexo', faixa:'f-idade', cor:'f-cor', castrado:'f-castrado' };
       var el = document.getElementById(map[key]);
       if (el) el.value = '';
       applyFilters();
     }
 
     function clearFilters() {
-      ['f-nome', 'f-sexo', 'f-idade', 'f-cor', 'f-castrado'].forEach(function(id) {
+      ['f-nome','f-sexo','f-idade','f-cor','f-castrado'].forEach(function(id) {
         document.getElementById(id).value = '';
       });
       document.getElementById('active-filters').innerHTML = '';
       visibleCats = cats.slice();
+      applySortToList(visibleCats, currentSort);
       renderCats(visibleCats);
     }
 
-    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
        ORDENAÇÃO
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-    function sortCats(value) {
-      if (value === 'nome') {
-        visibleCats.sort(function(a, b) { return a.nome.localeCompare(b.nome); });
-      } else if (value === 'idade-asc') {
-        visibleCats.sort(function(a, b) { return a.idadeNum - b.idadeNum; });
+       — força parseFloat dentro do sort para garantir
+         comparação numérica mesmo se idadeNum vier
+         como string após JSON.stringify / parse
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    function applySortToList(list, value) {
+      if (value === 'idade-asc') {
+        /* mais novos = menor idadeNum */
+        list.sort(function(a, b) {
+          var na = parseFloat(a.idadeNum) || 0;
+          var nb = parseFloat(b.idadeNum) || 0;
+          return na - nb;
+        });
+      } else if (value === 'idade-desc') {
+        /* mais velhos = maior idadeNum */
+        list.sort(function(a, b) {
+          var na = parseFloat(a.idadeNum) || 0;
+          var nb = parseFloat(b.idadeNum) || 0;
+          return nb - na;
+        });
       } else {
-        visibleCats.sort(function(a, b) { return b.idadeNum - a.idadeNum; });
+        /* padrão: alfabético */
+        list.sort(function(a, b) {
+          return a.nome.localeCompare(b.nome, 'pt-BR');
+        });
       }
+    }
+
+    function sortCats(value) {
+      currentSort = value;
+      applySortToList(visibleCats, value);
       renderCats(visibleCats);
     }
 
-    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-       MODAL DE DETALHES
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       MODAL
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
     function openModal(cat) {
       var img = document.getElementById('m-img');
-
       if (cat.imagem) {
         img.src = cat.imagem;
         img.style.display = 'block';
@@ -435,14 +435,18 @@
         img.style.display = 'none';
       }
 
-      document.getElementById('m-name').textContent  = cat.nome;
-      document.getElementById('m-age').textContent   = cat.idadeTxt + ' · ' + (cat.sexo === 'macho' ? '♂ Macho' : '♀ Fêmea');
-      document.getElementById('m-bio').textContent   = cat.bio;
+      document.getElementById('m-name').textContent = cat.nome;
+      document.getElementById('m-age').textContent  =
+        cat.idadeTxt + ' · ' + (cat.sexo === 'macho' ? '♂ Macho' : '♀ Fêmea');
+      document.getElementById('m-bio').textContent  = cat.bio;
       document.getElementById('m-details').innerHTML =
-        '<div class="modal-detail"><label>Pelagem</label><span>' + cat.cor_pelagem + '</span></div>' +
-        '<div class="modal-detail"><label>Idade</label><span>' + cat.idadeTxt + '</span></div>' +
-        '<div class="modal-detail"><label>Castrado(a)</label><span>' + (cat.castrado === 'sim' ? '✅ Sim' : '⏳ Não') + '</span></div>' +
-        '<div class="modal-detail"><label>Vacinado(a)</label><span>' + (cat.vacinado === 'sim' ? '✅ Sim' : '⏳ Não') + '</span></div>';
+        '<div class="modal-detail"><label>Pelagem</label><span>'     + cat.cor_pelagem + '</span></div>' +
+        '<div class="modal-detail"><label>Idade</label><span>'       + cat.idadeTxt    + '</span></div>' +
+        '<div class="modal-detail"><label>Castrado(a)</label><span>' + (cat.castrado === 'sim' ? 'Sim' : 'Não') + '</span></div>' +
+        '<div class="modal-detail"><label>Vacinado(a)</label><span>' + (cat.vacinado  === 'sim' ? 'Sim' : 'Não') + '</span></div>';
+
+      var urlForm = LINK_FORMULARIO + '&entry.nomegato=' + encodeURIComponent(cat.nome);
+      document.getElementById('m-btn-form').href = urlForm;
 
       document.getElementById('modal-overlay').classList.add('open');
       document.body.style.overflow = 'hidden';
@@ -457,39 +461,24 @@
       document.body.style.overflow = '';
     }
 
-    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-       VISUALIZADOR DE IMAGEM AMPLIADA
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    /* ── visualizador ── */
     function openImageViewer(src) {
-      var viewer = document.getElementById('image-viewer');
-      var img    = document.getElementById('viewer-img');
-      img.src = src;
-      viewer.classList.add('open');
-      document.body.style.overflow = 'hidden';
+      document.getElementById('viewer-img').src = src;
+      document.getElementById('image-viewer').classList.add('open');
     }
-
     function closeImageViewer(e) {
       if (e.target.id === 'image-viewer') closeImageViewerBtn();
     }
-
     function closeImageViewerBtn() {
       document.getElementById('image-viewer').classList.remove('open');
-      document.body.style.overflow = '';
     }
 
-    /* Busca por Enter */
+    /* Enter no campo de nome */
     document.getElementById('f-nome').addEventListener('keyup', function(e) {
       if (e.key === 'Enter') applyFilters();
     });
 
   </script>
-
-  <div class="image-viewer" id="image-viewer" onclick="closeImageViewer(event)">
-    <div class="image-viewer-content">
-      <button class="image-viewer-close" onclick="closeImageViewerBtn()">✕</button>
-      <img id="viewer-img" src="" alt="Foto ampliada">
-    </div>
-  </div>
 
 </body>
 </html>

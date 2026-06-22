@@ -1,18 +1,23 @@
 /* ============================================================
    Res-Gatinhos — Folha de Estilos Principal (style.css)
+   Paleta atualizada conforme identidade visual da ONG
    ============================================================ */
 
 /* ── VARIÁVEIS GLOBAIS ── */
 :root {
-  --orange:       #F5A623;
-  --orange-dark:  #E08A00;
-  --orange-light: #FFF3DC;
-  --black:        #1A1208;
-  --gray:         #6B6860;
-  --light:        #F9F6F1;
-  --paper:        #F5EFE4;
-  --white:        #FFFFFF;
-  --radius:       18px;
+  /* Paleta oficial Res-Gatinhos */
+  --orange:        #F29F00;   /* amarelo-laranja principal (Pantone 7570 CP) */
+  --orange-vivid:  #F58B1D;   /* laranja vivo (Pantone 7564 CP) */
+  --orange-dark:   #D98800;   /* escuro para hover */
+  --orange-light:  #FDF3D7;   /* fundo suave */
+  --brown:         #61503A;   /* marrom terra (Pantone 7553 CP) */
+  --gold:          #EEB965;   /* dourado (Pantone 1355 CP) */
+  --black:         #2B2B2B;   /* preto grafite (Pantone Black 7 CP) */
+  --gray:          #6B6860;
+  --light:         #FBF6EF;   /* fundo quente baseado na paleta */
+  --paper:         #F5EFE4;
+  --white:         #FFFFFF;
+  --radius:        18px;
 }
 
 /* ── RESET ── */
@@ -22,9 +27,7 @@
   padding: 0;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   font-family: 'DM Sans', sans-serif;
@@ -36,17 +39,15 @@ body {
 /* ── NAVEGAÇÃO ── */
 nav {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 0; left: 0; right: 0;
   z-index: 100;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 60px;
-  background: rgba(255, 255, 255, 0.92);
+  padding: 14px 60px;
+  background: rgba(255,255,255,0.95);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(245, 166, 35, 0.15);
+  border-bottom: 2px solid rgba(242,159,0,0.2);
 }
 
 .nav-logo {
@@ -56,20 +57,17 @@ nav {
   color: var(--orange);
   text-decoration: none;
   letter-spacing: -0.5px;
-  display: flex;             
-  align-items: center;        
-  gap: 8px;                   
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.nav-logo span {
-  color: var(--black);
-}
+.nav-logo span { color: var(--black); }
 
 .logo-img {
-  height: 50px;               
+  height: 50px;
   width: auto;
 }
-
 
 .nav-links {
   display: flex;
@@ -86,17 +84,16 @@ nav {
 }
 
 .nav-links a:hover,
-.nav-links a.active {
-  color: var(--orange);
-}
+.nav-links a.active { color: var(--orange-vivid); }
 
 .nav-cta {
   background: var(--orange) !important;
   color: var(--white) !important;
   padding: 10px 22px;
   border-radius: 50px;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
   transition: background 0.2s, transform 0.15s !important;
+  box-shadow: 0 4px 16px rgba(242,159,0,0.35);
 }
 
 .nav-cta:hover {
@@ -119,14 +116,14 @@ nav {
 .hero-bg {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #2b1a00 0%, #5c3800 60%, #1a0f00 100%);
+  background: linear-gradient(135deg, var(--black) 0%, #3a2800 55%, #1a1208 100%);
 }
 
 .hero-bg::before {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle cx='20' cy='20' r='5' fill='%23F5A623' opacity='.07'/%3E%3Ccircle cx='35' cy='17' r='3.5' fill='%23F5A623' opacity='.07'/%3E%3Ccircle cx='44' cy='26' r='3.5' fill='%23F5A623' opacity='.07'/%3E%3Cellipse cx='29' cy='35' rx='8' ry='10' fill='%23F5A623' opacity='.07'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle cx='20' cy='20' r='5' fill='%23F29F00' opacity='.08'/%3E%3Ccircle cx='35' cy='17' r='3.5' fill='%23F29F00' opacity='.08'/%3E%3Ccircle cx='44' cy='26' r='3.5' fill='%23F29F00' opacity='.08'/%3E%3Cellipse cx='29' cy='35' rx='8' ry='10' fill='%23F29F00' opacity='.08'/%3E%3C/svg%3E");
   background-size: 60px 60px;
 }
 
@@ -145,15 +142,15 @@ nav {
 
 .hero-tag {
   display: inline-block;
-  background: rgba(245, 166, 35, 0.2);
-  color: var(--orange);
+  background: rgba(242,159,0,0.18);
+  color: var(--gold);
   font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 2px;
   text-transform: uppercase;
   padding: 6px 18px;
   border-radius: 50px;
-  border: 1px solid rgba(245, 166, 35, 0.35);
+  border: 1px solid rgba(242,159,0,0.4);
   margin-bottom: 24px;
 }
 
@@ -172,7 +169,7 @@ nav {
 }
 
 .hero-sub {
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255,255,255,0.72);
   font-size: 1.05rem;
   font-weight: 300;
   margin-bottom: 40px;
@@ -188,7 +185,7 @@ nav {
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255,255,255,0.35);
   font-size: 0.75rem;
   letter-spacing: 1.5px;
   text-transform: uppercase;
@@ -198,13 +195,13 @@ nav {
   display: block;
   width: 1px;
   height: 50px;
-  background: linear-gradient(to bottom, rgba(245, 166, 35, 0.7), transparent);
+  background: linear-gradient(to bottom, rgba(242,159,0,0.7), transparent);
   animation: scrollLine 1.8s ease-in-out infinite;
 }
 
 @keyframes scrollLine {
-  0%, 100% { opacity: 0; transform: scaleY(0.3) translateY(-10px); }
-  50%       { opacity: 1; transform: scaleY(1) translateY(0); }
+  0%,100% { opacity: 0; transform: scaleY(0.3) translateY(-10px); }
+  50%      { opacity: 1; transform: scaleY(1) translateY(0); }
 }
 
 /* ── BOTÕES ── */
@@ -213,18 +210,18 @@ nav {
   background: var(--orange);
   color: var(--white);
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 700;
   padding: 16px 38px;
   border-radius: 50px;
   text-decoration: none;
   transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-  box-shadow: 0 8px 30px rgba(245, 166, 35, 0.4);
+  box-shadow: 0 8px 28px rgba(242,159,0,0.45);
 }
 
 .btn-primary:hover {
   background: var(--orange-dark);
   transform: translateY(-2px);
-  box-shadow: 0 14px 40px rgba(245, 166, 35, 0.5);
+  box-shadow: 0 14px 36px rgba(242,159,0,0.55);
 }
 
 .btn-outline {
@@ -249,6 +246,7 @@ nav {
 .btn-outline.filled {
   background: var(--orange);
   border-color: var(--orange);
+  color: var(--white);
 }
 
 .btn-outline.filled:hover {
@@ -258,13 +256,11 @@ nav {
 }
 
 /* ── SEÇÕES BASE ── */
-section {
-  padding: 100px 60px;
-}
+section { padding: 100px 60px; }
 
 .section-tag {
   display: inline-block;
-  color: var(--orange);
+  color: var(--orange-vivid);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 3px;
@@ -280,10 +276,7 @@ h2 {
   color: var(--black);
 }
 
-h2 em {
-  color: var(--orange);
-  font-style: normal;
-}
+h2 em { color: var(--orange); font-style: normal; }
 
 .lead {
   color: var(--gray);
@@ -298,20 +291,18 @@ h2 em {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 80px;
-  align-items: center;
+  align-items: start;
 }
 
-.sobre-visual {
-  position: relative;
-}
+.sobre-visual { position: relative; }
 
 .sobre-img-main {
   width: 100%;
   border-radius: var(--radius);
   aspect-ratio: 4/3;
-  background-image: url(img/garota-com-gato-laranja.jpg); /* imagem no lugar do emoji */
-  background-size: cover;       /* ocupa todo o espaço */
-  background-position: center;  /* centraliza */
+  background-image: url(img/garota-com-gato-laranja.jpg);
+  background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
 }
 
@@ -324,7 +315,7 @@ h2 em {
   padding: 22px 28px;
   border-radius: var(--radius);
   text-align: center;
-  box-shadow: 0 12px 40px rgba(245, 166, 35, 0.35);
+  box-shadow: 0 12px 40px rgba(242,159,0,0.4);
 }
 
 .sobre-card strong {
@@ -333,10 +324,7 @@ h2 em {
   font-family: 'Playfair Display', serif;
 }
 
-.sobre-card small {
-  font-size: 0.8rem;
-  opacity: 0.85;
-}
+.sobre-card small { font-size: 0.8rem; opacity: 0.9; }
 
 .sobre-text {
   display: flex;
@@ -344,32 +332,93 @@ h2 em {
   gap: 20px;
 }
 
-.sobre-text .lead {
-  max-width: none;
+.sobre-text .lead { max-width: none; }
+
+/* Link Instagram no sobre */
+.sobre-instagram {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--orange-vivid);
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: color 0.2s, gap 0.2s;
 }
 
-.stats-row {
-  display: flex;
-  gap: 32px;
-  margin-top: 12px;
+.sobre-instagram:hover {
+  color: var(--orange-dark);
+  gap: 12px;
 }
 
-.stat {
-  text-align: center;
+/* ── DOCUMENTOS DA ONG ── */
+.docs-section {
+  margin-top: 8px;
 }
 
-.stat strong {
+.docs-section h4 {
   font-family: 'Playfair Display', serif;
-  font-size: 1.8rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--black);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.docs-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.doc-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--white);
+  border: 1.5px solid rgba(242,159,0,0.25);
+  border-radius: 12px;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: var(--black);
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: border-color 0.2s, background 0.2s, transform 0.15s;
+}
+
+.doc-link:hover {
+  border-color: var(--orange);
+  background: var(--orange-light);
+  transform: translateX(4px);
+}
+
+.doc-link .doc-ico {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  background: rgba(242,159,0,0.12);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.doc-link .doc-name {
+  flex: 1;
+  line-height: 1.3;
+}
+
+.doc-link .doc-arrow {
   color: var(--orange);
-  display: block;
+  font-size: 0.85rem;
+  opacity: 0;
+  transition: opacity 0.2s;
 }
 
-.stat small {
-  font-size: 0.8rem;
-  color: var(--gray);
-}
-
+.doc-link:hover .doc-arrow { opacity: 1; }
 
 /* ── COMO AJUDAMOS ── */
 #como {
@@ -395,47 +444,27 @@ h2 em {
 
 .card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 20px 50px rgba(43,43,43,0.14);
 }
-
 
 .card-image {
   width: 100%;
-  height: 200px;              
-  background-size: cover;    
+  height: 200px;
+  background-size: cover;
   background-position: center;
 }
 
-.card-resgate {
-  background-image: url(img/gato-resgate.jpg);
-}
-.card-vet {
-  background-image: url(img/gato-veterinario.jpg);
-}
-.card-lar {
-  background-image: url(img/gato-descansando.jpg);
-}
+.card-resgate { background-image: url(img/gato-resgate.jpg); }
+.card-vet     { background-image: url(img/gato-veterinario.jpg); }
+.card-lar     { background-image: url(img/gato-descansando.jpg); }
 
-.card-body {
-  padding: 28px;
-}
-
-.card-body h3 {
-  font-size: 1.05rem;
-  font-weight: 700;
-  margin-bottom: 10px;
-}
-
-.card-body p {
-  font-size: 0.9rem;
-  color: var(--gray);
-  line-height: 1.6;
-}
-
+.card-body { padding: 28px; }
+.card-body h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; color: var(--black); }
+.card-body p  { font-size: 0.9rem; color: var(--gray); line-height: 1.6; }
 
 /* ── COMO VOCÊ PODE AJUDAR ── */
 #ajudar {
-  background: linear-gradient(135deg, #2b1a00, #5c3800);
+  background: linear-gradient(135deg, var(--black) 0%, #3a2400 100%);
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -450,13 +479,10 @@ h2 em {
   right: -40px;
 }
 
-#ajudar h2 {
-  color: var(--white);
-  margin-bottom: 16px;
-}
+#ajudar h2 { color: var(--white); margin-bottom: 16px; }
 
 #ajudar .lead {
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255,255,255,0.72);
   margin: 0 auto 50px;
 }
 
@@ -477,13 +503,8 @@ h2 em {
   align-items: center;
 }
 
-#contato h2 {
-  color: var(--white);
-}
-
-#contato .lead {
-  color: rgba(255, 255, 255, 0.85);
-}
+#contato h2 { color: var(--white); }
+#contato .lead { color: rgba(255,255,255,0.88); }
 
 .contato-links {
   display: flex;
@@ -496,25 +517,23 @@ h2 em {
   display: flex;
   align-items: center;
   gap: 14px;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 500;
   color: var(--white);
   text-decoration: none;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255,255,255,0.15);
   padding: 16px 24px;
   border-radius: var(--radius);
   transition: background 0.2s, transform 0.15s;
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255,255,255,0.25);
 }
 
 .contato-link:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255,255,255,0.28);
   transform: translateX(4px);
 }
 
-.contato-link .ico {
-  font-size: 1.4rem;
-}
+.contato-link .ico { font-size: 1.4rem; }
 
 .contato-right {
   width: 700px;
@@ -522,10 +541,8 @@ h2 em {
   background: url('img/gato-contato.png') center/cover no-repeat;
   margin-left: 125px;
   border-radius: var(--radius);
-  padding: 48px;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.18);
 }
-
 
 /* ── HASHTAG BAND ── */
 .tag-band {
@@ -533,7 +550,7 @@ h2 em {
   padding: 18px 0;
   text-align: center;
   font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255,255,255,0.5);
   letter-spacing: 3px;
 }
 
@@ -545,58 +562,159 @@ h2 em {
 /* ── FOOTER ── */
 footer {
   background: var(--black);
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255,255,255,0.5);
   padding: 48px 60px;
   display: flex;
-  flex-direction: column; 
-  align-items: center;    
-  text-align: center;     
-  gap: 12px;         
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
   font-size: 0.85rem;
 }
 
-footer a {
-  color: var(--orange);
-  text-decoration: none;
-}
-
-footer strong {
-  color: var(--orange);
-}
-
+footer a { color: var(--orange); text-decoration: none; }
+footer strong { color: var(--orange); }
 
 /* ── RESPONSIVO ── */
 @media (max-width: 900px) {
-  nav {
-    padding: 16px 24px;
-  }
-
-  .nav-links {
-    display: none;
-  }
-
-  section {
-    padding: 72px 24px;
-  }
+  nav { padding: 14px 24px; }
+  .nav-links { display: none; }
+  section { padding: 72px 24px; }
 
   #sobre,
-  #contato {
-    grid-template-columns: 1fr;
-    gap: 48px;
+  #contato { grid-template-columns: 1fr; gap: 48px; }
+
+  .cards-grid { grid-template-columns: 1fr; }
+  .sobre-card { right: 0; }
+
+  .contato-right {
+    width: 100%;
+    height: 260px;
+    margin-left: 0;
   }
 
-  .cards-grid {
-    grid-template-columns: 1fr;
-  }
+  footer { padding: 40px 24px; }
+}
 
-  .sobre-card {
-    right: 0;
-  }
+/* ═══════════════════════════════════════════════════════════
+   SEÇÃO DOCUMENTOS DA ONG — entre #ajudar e #contato
+   Fundo bege quente com padrão de patinhas (igual ao hero)
+   ═══════════════════════════════════════════════════════════ */
 
-  footer {
-    flex-direction: column;
-    gap: 12px;
-    text-align: center;
-    padding: 40px 24px;
-  }
+.docs-section-page {
+  position: relative;
+  background-color: var(--paper);
+  overflow: hidden;
+  text-align: center;
+  padding: 100px 60px;
+}
+
+/* padrão de patinhas igual ao hero, mas em marrom suave */
+.docs-section-page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle cx='20' cy='20' r='5' fill='%2361503A' opacity='.08'/%3E%3Ccircle cx='35' cy='17' r='3.5' fill='%2361503A' opacity='.08'/%3E%3Ccircle cx='44' cy='26' r='3.5' fill='%2361503A' opacity='.08'/%3E%3Cellipse cx='29' cy='35' rx='8' ry='10' fill='%2361503A' opacity='.08'/%3E%3C/svg%3E");
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+.docs-section-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.docs-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 56px;
+}
+
+.docs-header h2 { color: var(--black); }
+
+/* grid dos cards de documento */
+.docs-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+  text-align: left;
+}
+
+.doc-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(255,255,255,0.85);
+  border: 1.5px solid rgba(97,80,58,0.18);
+  border-radius: 16px;
+  padding: 18px 20px;
+  text-decoration: none;
+  color: var(--black);
+  backdrop-filter: blur(4px);
+  transition: background 0.2s, border-color 0.2s, transform 0.18s, box-shadow 0.18s;
+}
+
+.doc-card:hover {
+  background: var(--white);
+  border-color: var(--orange);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 36px rgba(97,80,58,0.12);
+}
+
+.doc-card-ico {
+  font-size: 1.6rem;
+  width: 48px;
+  height: 48px;
+  background: rgba(242,159,0,0.12);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+
+.doc-card:hover .doc-card-ico {
+  background: rgba(242,159,0,0.22);
+}
+
+.doc-card-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.doc-card-info strong {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--black);
+  line-height: 1.3;
+}
+
+.doc-card-info span {
+  font-size: 0.78rem;
+  color: var(--gray);
+}
+
+.doc-card-arrow {
+  font-size: 1rem;
+  color: var(--orange);
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+  transform: translate(-4px, 4px);
+}
+
+.doc-card:hover .doc-card-arrow {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+@media (max-width: 900px) {
+  .docs-section-page { padding: 72px 24px; }
+  .docs-cards { grid-template-columns: 1fr; }
 }
